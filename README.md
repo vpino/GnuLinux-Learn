@@ -54,7 +54,8 @@ Although "Linux" is referred to in everyday jargon as the operating system, this
 
 ## Linux Distribution
 
-![Distribution Linux logo](https://commons.wikimedia.org/wiki/File:Arquitectura_linux.png "Distribution Linux") 
+![Distribution Linux logo](https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Arquitectura_linux.png/250px-Arquitectura_linux.png "Distribution Linux") 
+
 
 A Linux distribution (often abbreviated as distro) is an operating system made from a software collection, which is based upon the Linux kernel and, often, a package management system. Linux users usually obtain their operating system by downloading one of the Linux distributions, which are available for a wide variety of systems ranging from embedded devices (for example, OpenWrt) and personal computers (for example, Linux Mint) to powerful supercomputers (for example, Rocks Cluster Distribution).
 
@@ -63,6 +64,92 @@ A typical Linux distribution comprises a Linux kernel, GNU tools and libraries, 
 ## Meta Distribution
 
 It is called Meta distribution to build other software from an existing version of GNU / Linux. GNU / Linux Distributions:
+
+
+## Filesystem Hierarchy Standard 
+
+This standard consists of a set of requirements and guidelines for file and directory placement under UNIX-like
+operating systems. The guidelines are intended to support interoperability of applications, system administration
+tools, development tools, and scripts as well as greater uniformity of documentation for these systems.
+
+
+### The Filesystem
+
+This standard assumes that the operating system underlying an FHS-compliant file system supports the same
+basic security features found in most UNIX filesystems.
+It is possible to define two independent distinctions among files: shareable vs. unshareable and variable vs. static.
+
+In general, files that differ in either of these respects should be located in different directories. This makes it easy
+to store files with different usage characteristics on different filesystems.
+
+"Shareable" files are those that can be stored on one host and used on others. "Unshareable" files are those that
+are not shareable. For example, the files in user home directories are shareable whereas device lock files are not.
+"Static" files include binaries, libraries, documentation files and other files that do not change without system
+administrator intervention. "Variable" files are files that are not static.
+
+Here is an example of a FHS-compliant system. (Other FHS-compliant layouts are possible.)
+
+|               | shareable       | unshareable  |
+| ------------- |:---------------:| ------------:|
+| static        | /usr
+                  /opt            | /etc 
+                                    /boot        |
+| variable      | /var/mail 
+                  /var/spool/news | /var/run 
+                                    /var/lock    |
+
+## The Root Filesystem
+
+### Purpose
+
+The contents of the root filesystem must be adequate to boot, restore, recover, and/or repair the system.
+
+* To boot a system, enough must be present on the root partition to mount other filesystems. This includes utilities, configuration, boot loader information, and other essential start-up data. /usr, /opt and /var are designed such that they may be located on other partitions or filesystems.
+
+* To enable recovery and/or repair of a system, those utilities needed by an experienced maintainer to diagnose and reconstruct a damaged system must be present on the root filesystem.
+
+* To restore a system, those utilities needed to restore from system backups (on floppy, tape, etc.) must be present on the root filesystem
+
+#### Rationale
+
+* Creating a new subdirectory of the root filesystem is prohibited.
+
+* Applications must never create or require special files or subdirectories in the root directory. Other locations in the OHS hierarchy provide more than enough flexibility for any package.
+
+### Requirements
+
+The following directories, or symbolic links to directories, are required in /
+
+| Directory         | Description                                   |
+| :------------- ---|:---------------------------------------------:|
+| bin               | Essential command binaries                    |
+| boot              | Static files of the boot loader               |
+| dev               | Device files                                  |
+| etc               | Host-specific system configuration            |
+| lib               | Essential shared libraries and kernel modules |
+| media             | Mount point for removeable media              |
+| mnt               | Mount point for mounting a filesystem temporarily |
+| opt               | Add-on application software packages          |
+| sbin              | Essential system binaries                     |
+| srv               | Data for services provided by this system     |
+| tmp               | Temporary files                               |
+| usr               | Secondary hierarchy                           |
+| var               | Variable data                                 |
+
+Each directory listed above is specified in detail in separate subsections below. /usr and /var each have a complete section in this document due to the complexity of those directories
+
+### Specific Options
+
+The following directories, or symbolic links to directories, must be in /, if the corresponding subsystem is installed.
+
+| Directory         | Description                         |
+| :------------- ---|:-----------------------------------:|
+| home              | User home directories (optional)    |
+| lib<qual>         | Alternate format essential shared libraries (optional) |
+| root              | Home directory for the root user (optional) |
+
+Each directory listed above is specified in detail in separate subsections below
+
 
 
 # Version en Español
@@ -116,8 +203,7 @@ A pesar de que con "Linux" se denomina en la jerga cotidiana al sistema operativ
 
 ## Distribución Linux
 
-![Distribution Linux logo](https://commons.wikimedia.org/wiki/File:Arquitectura_linux.png "Distribution Linux") 
-
+![Distribution Linux logo](https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Arquitectura_linux.png/250px-Arquitectura_linux.png "Distribution Linux") 
 
 Una distribución Linux (coloquialmente llamada distro) es una distribución de software basada en el núcleo Linux que incluye determinados paquetes de software para satisfacer las necesidades de un grupo específico de usuarios, dando así origen a ediciones domésticas, empresariales y para servidores. Por lo general están compuestas, total o mayoritariamente, de software libre, aunque a menudo incorporan aplicaciones o controladores propietarios.
 
@@ -126,3 +212,4 @@ Además del núcleo Linux, las distribuciones incluyen habitualmente las bibliot
 ## Meta Distribución
 
 Se llama Meta distribución a construir otro software partiendo de una versión de GNU/Linux ya existente. Distribuciones GNU/Linux: 
+
